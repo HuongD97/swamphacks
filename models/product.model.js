@@ -44,3 +44,7 @@ module.exports.getById = function(id, callback) {
 module.exports.updateProduct = async function(id, product) {
     return await Product.findOneAndUpdate(id, product);
 }
+
+module.exports.removeProduct = async function(id){
+    return await Product.find(id).remove();
+}
