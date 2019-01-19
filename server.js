@@ -4,31 +4,48 @@ const bodyParser = require('body-parser');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
+const User = require('./src/User');
 
 app.prepare()
     .then(() => {
         const server = express();
         server.use(bodyParser.json());
-        
-        const item1 = {
-            id: 1,
-            name: 'Banana',
-            quantity: 5
-        };
-        const item2 = {
-            id: 2,
-            name: 'Tomato',
-            quantity: 5
-        };
 
-        const allItems = [item1, item2];
+        server.post('/signIn', async (req, res) => {
+            try {
+                const { email, password } = req.body;
+                const result = await User.signIn(email, password);
+                res.json(result);
+            } catch (e) {
+                console.log('Error:', e);
+                res.status(500).send('An error occurred on the server. Check server log for more info.');
+            }
+        });
 
-        server.post('/getItem', (req, res) => {
-            const { id } = req.body;
-            const result = allItems.find((item) => {
-                return item.id === id;
-            });
-            res.json(result);
+        server.post('/getCurrentSignedInAccount', (req, res) => {
+            try {
+                User.getCurrentUser((err, user) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        res.json(user);
+                    }
+                });
+            } catch (e) {
+                console.log('Error:', e);
+                res.status(500).send('An error occurred on the server. Check server log for more info.');
+            }
+
+        });
+        server.post('/createAccount', async (req, res) => {
+            try {
+                const { email, password } = req.body;
+                const result = await User.createUser(email, password);
+                res.json(result);
+            } catch (e) {
+                console.log('Error:', e);
+                res.status(500).send('An error occurred on the server. Check server log for more info.');
+            }
         });
 
         server.get('*', (req, res) => {
