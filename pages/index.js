@@ -1,4 +1,6 @@
 import Link from 'next/link';
-const Index = () => <Link href='/catalog'><a>Catalog</a></Link>;
+import Button from '@material-ui/core/Button';
+
+const Index = () => <Link href='/addInventory'><Button>Submit Inventory</Button></Link>;
 
 export default Index;
