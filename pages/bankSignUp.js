@@ -9,7 +9,7 @@ const styles = theme => ({
     root: {
         textAlign: 'center',
         marginTop: theme.spacing.unit * 5,
-        paddingBottom: theme.spacing.unit * 10,
+        paddingBottom: theme.spacing.unit * 5,
         marginLeft: theme.spacing.unit * 10,
         marginRight: theme.spacing.unit * 10,
         boxShadow: '5px 10px',
