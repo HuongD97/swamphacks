@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production & node server.js"
   },
   "keywords": [],
   "author": "",
@@ -25,5 +25,8 @@
     "react": "^16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2",
     "react-jss": "^8.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
   }
 }
