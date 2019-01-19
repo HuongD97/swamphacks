@@ -42,13 +42,10 @@ const styles = theme => ({
     }
 });
 
-class OrganizationSignUp extends React.Component {
+class SignIn extends React.Component {
     state = {
-        providerName: '',
-        providerAddress: '',
-        providerEmail: '',
-        providerPassword: '',
-        providerPhone: ''
+        username: '',
+        password: ''
     };
 
     handleChange = name => event => {
@@ -64,50 +61,15 @@ class OrganizationSignUp extends React.Component {
             <div className={classes.root}>
                 <form className={classes.container}>
                     <Typography gutterBottom={true} variant="h5">
-                        Food Donator Sign Up
-                    </Typography>
-                    <Typography>
-                        Thank you for your enthusiasm in donating food. Your generous donation
-                        will be used to stock food banks and help them better serve Americans
-                        in need of nutritious meals. After signing up for an account, you will be able to
-                        list items that you want to donate. Food banks within our network will be able to
-                        see listed items and reserve them according to their needs. Once reserved, food banks'
-                        staff will be able to pick up items from your organization address. Thank you!
+                        Log In
                     </Typography>
                     <div className={classes.spaceBetween}/>
                     <TextField
-                        id="orgName"
-                        label="Name"
-                        className={classes.textField}
-                        value={this.state.providerName}
-                        onChange={this.handleChange('providerName')}
-                        variant="outlined"
-                    />
-                    <div className={classes.spaceBetween}/>
-                    <TextField
-                        id="orgAddress"
-                        label="Pickup Address"
-                        className={classes.textField}
-                        value={this.state.providerAddress}
-                        onChange={this.handleChange('providerAddress')}
-                        variant="outlined"
-                    />
-                    <div className={classes.spaceBetween}/>
-                    <TextField
-                        id="orgEmail"
+                        id="username"
                         label="Email Address"
                         className={classes.textField}
-                        value={this.state.providerEmail}
-                        onChange={this.handleChange('providerEmail')}
-                        variant="outlined"
-                    />
-                    <div className={classes.spaceBetween}/>
-                    <TextField
-                        id="orgPhone"
-                        label="Phone Number"
-                        className={classes.textField}
-                        value={this.state.providerPhone}
-                        onChange={this.handleChange('providerPhone')}
+                        value={this.state.username}
+                        onChange={this.handleChange('username')}
                         variant="outlined"
                     />
                     <div className={classes.spaceBetween}/>
@@ -115,9 +77,10 @@ class OrganizationSignUp extends React.Component {
                         id="password"
                         label="Password"
                         className={classes.textField}
-                        value={this.state.providerPassword}
-                        onChange={this.handleChange('providerPassword')}
+                        value={this.state.password}
+                        onChange={this.handleChange('password')}
                         variant="outlined"
+                        type="password"
                     />
                     <div className={classes.spaceBetween}/>
                     <div className={classes.buttonContainer}>
@@ -131,8 +94,8 @@ class OrganizationSignUp extends React.Component {
     }
 }
 
-OrganizationSignUp.propTypes = {
+SignIn.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(OrganizationSignUp);
+export default withStyles(styles)(SignIn);
