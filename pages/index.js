@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import MyButton from '../components/MyButton';
+import Button from '@material-ui/core/Button';
 
-const Index = () => <Link href='/catalog'><MyButton>{process.env.password}</MyButton></Link>;
+const Index = () => <Link href='/addInventory'><Button>Submit Inventory</Button></Link>;
 
 export default Index;
