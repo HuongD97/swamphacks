@@ -23,8 +23,8 @@ let getAvailableProducts = function(arr) {
     return availableProducts;
 }
 
-module.exports.addProduct = function(product, callback) {
-    Product.create(product);
+module.exports.addProduct = async function(product, callback) {
+    await Product.create(product);
 }
 
 module.exports.getAllAvailable = async function(limit) {

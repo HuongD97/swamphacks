@@ -18,9 +18,11 @@ app.prepare()
         // set up routes
         var indexRouter = require("./routes/index");
         var productRouter = require("./routes/product");
+        var categoryRouter = require("./routes/category");
 
         server.use('/', indexRouter);
         server.use('/product', productRouter);
+        server.use('/category', categoryRouter);
 
         server.get('*', (req, res) => {
             return handle(req, res);
