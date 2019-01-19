@@ -42,13 +42,13 @@ const styles = theme => ({
     }
 });
 
-class OrganizationSignUp extends React.Component {
+class RequesterSignUp extends React.Component {
     state = {
-        providerName: '',
-        providerAddress: '',
-        providerEmail: '',
-        providerPassword: '',
-        providerPhone: ''
+        requesterName: '',
+        requesterAddress: '',
+        requesterEmail: '',
+        requesterPassword: '',
+        requesterPhone: ''
     };
 
     handleChange = name => event => {
@@ -64,59 +64,54 @@ class OrganizationSignUp extends React.Component {
             <div className={classes.root}>
                 <form className={classes.container}>
                     <Typography gutterBottom={true} variant="h5">
-                        Food Donator Sign Up
+                        Food Bank Sign Up
                     </Typography>
                     <Typography>
-                        Thank you for your enthusiasm in donating food. Your generous donation
-                        will be used to stock food banks and help them better serve Americans
-                        in need of nutritious meals. After signing up for an account, you will be able to
-                        list items that you want to donate. Food banks within our network will be able to
-                        see listed items and reserve them according to their needs. Once reserved, food banks'
-                        staff will be able to pick up items from your organization address. Thank you!
+                        You rock for working so hard to provide for people who need it.
                     </Typography>
                     <div className={classes.spaceBetween}/>
                     <TextField
-                        id="orgName"
+                        id="bankName"
                         label="Name"
                         className={classes.textField}
-                        value={this.state.providerName}
-                        onChange={this.handleChange('providerName')}
+                        value={this.state.requesterName}
+                        onChange={this.handleChange('requesterName')}
                         variant="outlined"
                     />
                     <div className={classes.spaceBetween}/>
                     <TextField
-                        id="orgAddress"
-                        label="Pickup Address"
+                        id="bankAddress"
+                        label="Food Bank Location"
                         className={classes.textField}
-                        value={this.state.providerAddress}
-                        onChange={this.handleChange('providerAddress')}
+                        value={this.state.requesterAddress}
+                        onChange={this.handleChange('requesterAddress')}
                         variant="outlined"
                     />
                     <div className={classes.spaceBetween}/>
                     <TextField
-                        id="orgEmail"
+                        id="requesterEmail"
                         label="Email Address"
                         className={classes.textField}
-                        value={this.state.providerEmail}
-                        onChange={this.handleChange('providerEmail')}
+                        value={this.state.requesterEmail}
+                        onChange={this.handleChange('requesterEmail')}
                         variant="outlined"
                     />
                     <div className={classes.spaceBetween}/>
                     <TextField
-                        id="orgPhone"
+                        id="requesterPhone"
                         label="Phone Number"
                         className={classes.textField}
-                        value={this.state.providerPhone}
-                        onChange={this.handleChange('providerPhone')}
-                        variant="outlined"
+                        value={this.state.requesterPhone}
+                        onChange={this.handleChange('requesterPhone')}
+                        variant={"outlined"}
                     />
-                    <div className={classes.spaceBetween}/>
+                    <div className={classes.spaceBetween} />
                     <TextField
-                        id="password"
+                        id="requesterPassword"
                         label="Password"
                         className={classes.textField}
-                        value={this.state.providerPassword}
-                        onChange={this.handleChange('providerPassword')}
+                        value={this.state.requesterPassword}
+                        onChange={this.handleChange('requesterPassword')}
                         variant="outlined"
                     />
                     <div className={classes.spaceBetween}/>
@@ -131,8 +126,8 @@ class OrganizationSignUp extends React.Component {
     }
 }
 
-OrganizationSignUp.propTypes = {
+RequesterSignUp.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(OrganizationSignUp);
+export default withStyles(styles)(RequesterSignUp);
