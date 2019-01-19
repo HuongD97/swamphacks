@@ -4,12 +4,12 @@ const bodyParser = require('body-parser');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({dev});
 const handle = app.getRequestHandler();
-const User = require('./src/User');
 
 // set up routes
 const indexRouter = require("./routes/index");
 const productRouter = require("./routes/product");
 const categoryRouter = require("./routes/category");
+const accountRouter = require('./routes/account');
 
 //configure MongoDB
 let mongoose = require('mongoose');
@@ -24,43 +24,7 @@ app.prepare()
         server.use('/', indexRouter);
         server.use('/product', productRouter);
         server.use('/category', categoryRouter);
-
-        server.post('/signIn', async (req, res) => {
-            try {
-                const {email, password} = req.body;
-                const result = await User.signIn(email, password);
-                res.json(result);
-            } catch (e) {
-                console.log('Error:', e);
-                res.status(500).send('An error occurred on the server. Check server log for more info.');
-            }
-        });
-
-        server.post('/getCurrentSignedInAccount', (req, res) => {
-            try {
-                User.getCurrentUser((err, user) => {
-                    if (err) {
-                        throw err;
-                    } else {
-                        res.json(user);
-                    }
-                });
-            } catch (e) {
-                console.log('Error:', e);
-                res.status(500).send('An error occurred on the server. Check server log for more info.');
-            }
-
-        });
-        server.post('/createAccount', async (req, res) => {
-            try {
-                const {email, password} = req.body;
-                const result = await User.createUser(email, password);
-                res.json(result);
-            } catch (e) {
-                console.log('Error:', e);
-                res.status(500).send('An error occurred on the server. Check server log for more info.');
-            }
-        });
+        server.use('/account', accountRouter);
 
         server.get('*', (req, res) => {
             return handle(req, res);
