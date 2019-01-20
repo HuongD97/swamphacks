@@ -23,6 +23,17 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.post('/verify', async (req, res) => {
+    const id = req.body.id;
+    User.getCurrentUser((user) => {
+        if (user && user.uid === id) {
+            res.send(true);
+        } else {
+            res.send(false);
+        }
+    });
+});
+
 // router.post('/getCurrentSignedInAccount', (req, res) => {
 //     try {
 //         User.getCurrentUser((err, user) => {
