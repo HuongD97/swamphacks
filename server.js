@@ -10,6 +10,8 @@ const productRouter = require("./routes/product");
 const categoryRouter = require("./routes/category");
 const accountRouter = require('./routes/account');
 const providerRouter = require('./routes/provider');
+const requesterRouter = require('./routes/requester');
+
 
 //configure MongoDB
 let mongoose = require('mongoose');
@@ -25,6 +27,7 @@ app.prepare()
         server.use('/category', categoryRouter);
         server.use('/account', accountRouter);
         server.use('/provider', providerRouter);
+        server.use('/requester', requesterRouter);
 
         server.get('*', (req, res) => {
             return handle(req, res);
