@@ -34,9 +34,9 @@ router.post('/verify', async (req, res) => {
     });
 });
 
-router.get('/providerById', async function(req, res){
-    let provider = await Provider.getProviderById(req.body.id);
-    console.log(provider)
+router.post('/getById', async function(req, res){
+    const providerID = req.body.id;
+    let provider = await Provider.getProviderById(providerID);
     res.json(provider);
 });
 
