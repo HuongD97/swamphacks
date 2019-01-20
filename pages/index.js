@@ -58,7 +58,7 @@ class Index extends React.Component {
         return (
             <div className={classes.root}>
                 <form className={classes.container}>
-                    <Typography gutterBottom={true} variant="h3">
+                    <Typography gutterBottom={true} variant="h2">
                         Hack Away Hunger
                     </Typography>
                     <Typography variant="h5">
