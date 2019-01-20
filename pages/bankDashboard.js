@@ -6,17 +6,20 @@ class BankDashboard extends React.Component {
         super(props);
         this.state = {
             isLoggedIn: false,
-            requesterInfo: { ...this.props.router.query }
+            requesterInfo: { ...props.router.query }
         }
     }
 
     render() {
         return (
             <div>
+                ahh
                 {this.state.requesterInfo.name}
             </div>
         );
     }
 }
+
+
 
 export default withRouter(BankDashboard);
