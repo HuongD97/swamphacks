@@ -1,5 +1,14 @@
 import axios from 'axios';
 import Item from '../components/Item';
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+    }
+})
 
 const ITEMS = [
     { id: 1, name: 'Tomato', quantity: 2, providerId: 2, imageURL: 'https://cdn-images-1.medium.com/max/1600/1*utOmkc67LDksWHdUZhrMrw.jpeg'},
@@ -22,13 +31,18 @@ class Catalog extends React.Component {
         const listItems = this.state.items.map((item) => (
             <Item key={item.id} item={item} />
         ));
+        const { classes } = this.props;
 
         return(
             <div>
-                {listItems}
+                <Button variant="contained" component="span" className={classes.button}>Butt</Button>
             </div>
         );
     }
 }
 
-export default Catalog;
+Catalog.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Catalog);
