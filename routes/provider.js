@@ -34,6 +34,12 @@ router.post('/verify', async (req, res) => {
     });
 });
 
+router.get('/providerById', async function(req, res){
+    let provider = await Provider.getProviderById(req.body.id);
+    console.log(provider)
+    res.json(provider);
+});
+
 // router.post('/getCurrentSignedInAccount', (req, res) => {
 //     try {
 //         User.getCurrentUser((err, user) => {
