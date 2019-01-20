@@ -57,6 +57,25 @@ class ProviderProductAdd extends React.Component {
         });
     };
 
+
+    handleSubmit = async event => {
+        try {
+            this.setState({loading: true});
+            const product = {
+                name: this.state.productName,
+                provider_id: this.state.providerPassword,
+                image_url: this.state.imageUrl,
+                category_id: this.state.categoryId,
+                quantity: this.state.quantity
+            };
+            const result = await axios.post('/product/create', product);
+            const orgData = result.data.orgData;
+            //Router.push({pathname: '/orgDashboard', query: orgData});
+        } catch (e) {
+            this.setState({loading: false, error: e && e.message ? e.message : e});
+        }
+    };
+
     render () {
         const { classes } = this.props;
 
