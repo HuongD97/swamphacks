@@ -14,14 +14,12 @@ app.prepare()
     .then(() => {
         const server = express();
         server.use(bodyParser.json());
-        
+
         // set up routes
-        let indexRouter = require("./routes/index");
         let productRouter = require("./routes/product");
         let categoryRouter = require("./routes/category");
         let orderRouter = require("./routes/order");
 
-        server.use('/', indexRouter);
         server.use('/product', productRouter);
         server.use('/category', categoryRouter);
         server.use('/order', orderRouter);
