@@ -14,7 +14,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { withRouter } from 'next/router';
 import TextField from "@material-ui/core/TextField";
-
+import Router from 'next/router';
 
 const styles = theme => ({
     root: {
@@ -115,6 +115,18 @@ class Market extends React.Component {
             this.setState({products: result.data.filter(product => product.category_id == this.state.filterId)});
 
     }
+
+    async handleSignOut() {
+        try {
+            const result = await axios.post('/requester/signout');
+            if (result.data.success) {
+                Router.push('/');
+            }
+        } catch (e) {
+            console.log('Error signing out:', e);
+        }
+    }
+
     render() {
         const { classes } = this.props;
         const { filterId } = this.state;
@@ -173,6 +185,7 @@ class Market extends React.Component {
         return (
             <div className={classes.heading}>
                 <h1>Marketplace</h1>
+                <Button onClick={this.handleSignOut} variant="outlined" color="primary">Sign Out</Button>
                 <div className={classes.root}>
                     <h3>Filters</h3>
                     <ToggleButtonGroup value={filterId}
@@ -187,7 +200,6 @@ class Market extends React.Component {
 
                         <Grid container justify="center" spacing={16}>
                             {showCard()}
-
                         </Grid>
                     </Grid>
                 </div>

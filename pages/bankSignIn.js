@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
+import Router from 'next/router';
 
 const styles = theme => ({
     root: {
@@ -44,7 +46,7 @@ const styles = theme => ({
 
 class BankSignIn extends React.Component {
     state = {
-        username: '',
+        email: '',
         password: ''
     };
 
@@ -52,6 +54,20 @@ class BankSignIn extends React.Component {
         this.setState({
             [name]: event.target.value
         });
+    };
+
+    handleLogIn = async event => {
+        try {
+            const result = await axios.post('/requester/login', {
+                email: this.state.email,
+                password: this.state.password
+            });
+            const requesterInfo = result.data.requesterInfo;
+            Router.push({pathname: '/marketplace', query: requesterInfo});
+        }
+        catch (e) {
+            console.log('Error signing in:', e);
+        }
     };
 
     render () {
@@ -68,8 +84,8 @@ class BankSignIn extends React.Component {
                         id="username"
                         label="Email Address"
                         className={classes.textField}
-                        value={this.state.username}
-                        onChange={this.handleChange('username')}
+                        value={this.state.email}
+                        onChange={this.handleChange('email')}
                         variant="outlined"
                     />
                     <div className={classes.spaceBetween}/>
@@ -84,8 +100,8 @@ class BankSignIn extends React.Component {
                     />
                     <div className={classes.spaceBetween}/>
                     <div className={classes.buttonContainer}>
-                        <Button size="large" color="primary">
-                            Submit
+                        <Button size="large" color="primary" onClick={this.handleLogIn}>
+                            Log In
                         </Button>
                     </div>
                 </form>

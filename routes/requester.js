@@ -23,5 +23,27 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const account = await User.signIn(email, password);
+        const { uid } = account.user;
+        const requesterInfo = await Requester.getById(uid);
+        res.send({requesterInfo: pick(requesterInfo, ['name', 'address', 'email', 'requester_id', 'phone'])});
+    } catch (e) {
+        console.log(e);
+        res.status(500).send(e);
+    }
+});
+
+router.post('/signout', async (req, res) => {
+    try {
+        await User.signOut();
+        res.json({ success: true });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send(e);
+    }
+});
 
 module.exports = router;
