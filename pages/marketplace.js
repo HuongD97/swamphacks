@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Listing from './components/Listing.js';
-import Typography from '@material-ui/core/Typography';
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import axios from 'axios';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,6 +12,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { withRouter } from 'next/router';
 import TextField from "@material-ui/core/TextField";
 
 
@@ -60,8 +59,9 @@ class Market extends React.Component {
         filterId: null,
         products: [],
         open: false,
-        quantity: 0
-    }
+        quantity: 0,
+        requesterInfo: this.props.router.query
+    };
 
     handleFilter = (event, filterId) => this.setState({filterId});
 
@@ -86,6 +86,7 @@ class Market extends React.Component {
     };
 
     async componentDidMount(){
+        console.log('this.state.requesterInfo', this.state.requesterInfo);
         console.log("mount");
         const result = await axios.get('/product/getAllAvailable');
         console.log(result);
@@ -196,7 +197,8 @@ class Market extends React.Component {
 }
 
 Market.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Market);
+export default withRouter(withStyles(styles)(Market));

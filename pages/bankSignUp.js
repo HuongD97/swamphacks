@@ -71,7 +71,7 @@ class RequesterSignUp extends React.Component {
             };
             const result = await axios.post('/requester/create', requesterInfo);
             const bankData = result.data.bankData;
-            Router.push({pathname: '/bankDashboard', query: bankData});
+            Router.push({pathname: '/marketplace', query: bankData});
         } catch (e) {
             this.setState({loading: false, error: e && e.message ? e.message : e});
         }

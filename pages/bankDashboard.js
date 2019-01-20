@@ -14,12 +14,10 @@ class BankDashboard extends React.Component {
         return (
             <div>
                 ahh
-                {this.state.requesterInfo.name}
+                {this.state.requesterInfo.requester_id}
             </div>
         );
     }
 }
-
-
 
 export default withRouter(BankDashboard);
