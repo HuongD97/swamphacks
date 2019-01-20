@@ -141,7 +141,7 @@ class Market extends React.Component {
                 return (
                     this.state.products.map(value => (
                         <Grid key={value._id} item>
-                            <Listing>{value}</Listing>
+                            <Listing item={value}></Listing>
 
                             <Button onClick={this.handleOpen} >
                                 Listing Details
@@ -153,7 +153,7 @@ class Market extends React.Component {
                                 aria-labelledby="form-dialog-title">
                                 <DialogTitle id="form-dialog-title">Reserve Food</DialogTitle>
                                 <DialogContent>
-                                    <Listing>{value}</Listing>
+                                    <Listing item={value} />
                                     <DialogContentText>
                                         Please enter the quantity of this item you'd like to reserve.
                                     </DialogContentText>
