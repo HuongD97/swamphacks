@@ -42,7 +42,7 @@ const styles = theme => ({
     }
 });
 
-class SignIn extends React.Component {
+class OrgSignIn extends React.Component {
     state = {
         username: '',
         password: ''
@@ -94,8 +94,8 @@ class SignIn extends React.Component {
     }
 }
 
-SignIn.propTypes = {
+OrgSignIn.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SignIn);
+export default withStyles(styles)(OrgSignIn);
