@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
+import Router from 'next/router';
 
 const styles = theme => ({
     root: {
         textAlign: 'center',
         marginTop: theme.spacing.unit * 5,
-        paddingBottom: theme.spacing.unit * 10,
+        paddingBottom: theme.spacing.unit * 5,
         marginLeft: theme.spacing.unit * 10,
         marginRight: theme.spacing.unit * 10,
         boxShadow: '5px 10px',
@@ -24,8 +26,8 @@ const styles = theme => ({
         flexWrap: 'wrap',
         flexDirection: 'column',
         paddingTop: theme.spacing.unit,
-        paddingRight: theme.spacing.unit*5,
-        paddingLeft: theme.spacing.unit*5
+        paddingRight: theme.spacing.unit * 5,
+        paddingLeft: theme.spacing.unit * 5
     },
     textField: {
         marginLeft: theme.spacing.unit,
@@ -39,6 +41,9 @@ const styles = theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    errorText: {
+        color: 'red',
     }
 });
 
@@ -48,7 +53,9 @@ class OrganizationSignUp extends React.Component {
         providerAddress: '',
         providerEmail: '',
         providerPassword: '',
-        providerPhone: ''
+        providerPhone: '',
+        loading: false,
+        error: ''
     };
 
     handleChange = name => event => {
@@ -57,8 +64,39 @@ class OrganizationSignUp extends React.Component {
         });
     };
 
-    render () {
-        const { classes } = this.props;
+    handleSubmit = async event => {
+        try {
+            this.setState({loading: true});
+            const providerInfo = {
+                email: this.state.providerEmail,
+                password: this.state.providerPassword,
+                phone: this.state.providerPhone,
+                name: this.state.providerName,
+                address: this.state.providerAddress
+            };
+            const result = await axios.post('/provider/create', providerInfo);
+            const orgData = result.data.orgData;
+            Router.push({pathname: '/orgDashboard', query: orgData});
+        } catch (e) {
+            this.setState({loading: false, error: e && e.message ? e.message : e});
+        }
+    };
+
+    showError = () => {
+        if (this.state.error.length > 0) {
+            return (
+                <div className={this.props.classes.errorText}>
+                    {this.state.error}
+                    <div className={this.props.classes.spaceBetween}/>
+                </div>
+            )
+        } else {
+            return null;
+        }
+    };
+
+    render() {
+        const {classes} = this.props;
 
         return (
             <div className={classes.root}>
@@ -120,8 +158,9 @@ class OrganizationSignUp extends React.Component {
                         variant="outlined"
                     />
                     <div className={classes.spaceBetween}/>
+                    {this.showError()}
                     <div className={classes.buttonContainer}>
-                        <Button size="large" color="primary">
+                        <Button size="large" color="primary" onClick={this.handleSubmit}>
                             Submit
                         </Button>
                     </div>

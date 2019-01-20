@@ -2,8 +2,14 @@ const express = require('express');
 const next = require('next');
 const bodyParser = require('body-parser');
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
+const app = next({dev});
 const handle = app.getRequestHandler();
+
+// set up routes
+const productRouter = require("./routes/product");
+const categoryRouter = require("./routes/category");
+const accountRouter = require('./routes/account');
+const providerRouter = require('./routes/provider');
 
 //configure MongoDB
 let mongoose = require('mongoose');
@@ -15,14 +21,10 @@ app.prepare()
         const server = express();
         server.use(bodyParser.json());
 
-        // set up routes
-        let productRouter = require("./routes/product");
-        let categoryRouter = require("./routes/category");
-        let orderRouter = require("./routes/order");
-
         server.use('/product', productRouter);
         server.use('/category', categoryRouter);
-        server.use('/order', orderRouter);
+        server.use('/account', accountRouter);
+        server.use('/provider', providerRouter);
 
         server.get('*', (req, res) => {
             return handle(req, res);

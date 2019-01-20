@@ -4,12 +4,14 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import axios from "axios/index";
+import Router from "next/router";
 
 const styles = theme => ({
     root: {
         textAlign: 'center',
         marginTop: theme.spacing.unit * 5,
-        paddingBottom: theme.spacing.unit * 10,
+        paddingBottom: theme.spacing.unit * 5,
         marginLeft: theme.spacing.unit * 10,
         marginRight: theme.spacing.unit * 10,
         boxShadow: '5px 10px',
@@ -55,6 +57,24 @@ class RequesterSignUp extends React.Component {
         this.setState({
             [name]: event.target.value
         });
+    };
+
+    handleSubmit = async event => {
+        try {
+            this.setState({loading: true});
+            const requesterInfo = {
+                email: this.state.requesterEmail,
+                password: this.state.requesterPassword,
+                phone: this.state.requesterPhone,
+                name: this.state.requesterName,
+                address: this.state.requesterAddress
+            };
+            const result = await axios.post('/requester/create', requesterInfo);
+            const bankData = result.data.bankData;
+            Router.push({pathname: '/bankDashboard', query: bankData});
+        } catch (e) {
+            this.setState({loading: false, error: e && e.message ? e.message : e});
+        }
     };
 
     render () {
@@ -113,10 +133,11 @@ class RequesterSignUp extends React.Component {
                         value={this.state.requesterPassword}
                         onChange={this.handleChange('requesterPassword')}
                         variant="outlined"
+                        type="password"
                     />
                     <div className={classes.spaceBetween}/>
                     <div className={classes.buttonContainer}>
-                        <Button size="large" color="primary">
+                        <Button size="large" color="primary" onClick={this.handleSubmit}>
                             Submit
                         </Button>
                     </div>
