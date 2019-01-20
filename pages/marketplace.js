@@ -8,6 +8,14 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Listing from './components/Listing.js';
 import Typography from '@material-ui/core/Typography';
 import ToggleButton from "@material-ui/lab/ToggleButton";
+import axios from 'axios';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from "@material-ui/core/TextField";
+
 
 const styles = theme => ({
     root: {
@@ -50,41 +58,116 @@ const styles = theme => ({
 class Market extends React.Component {
     state = {
         filterId: null,
-        products2: []
+        products: [],
+        open: false,
+        quantity: 0
     }
-    handleFilter2 = name => event => {
-        console.log("wow");
-    }
-    handleFilter = (event, filterId) => this.setState({filterId});
-    handleChange =  event => {
-        console.log('change')
-        console.log(this.state.filterId)
 
+    handleFilter = (event, filterId) => this.setState({filterId});
+
+    handleOpen = () => {
+        console.log("open");
+        this.setState({ open: true });
+    };
+
+    handleClose = () => {
+        console.log("close");
+        this.setState({open: false});
+    };
+
+    quantChange = name => event => {
+        this.setState({quantity: event.target.value})
     }
-    componentDidMount(){
-        this.products2
+
+    handleReserve = () => {
+        console.log(this.state.quantity);
+        console.log("reserve");
+        this.setState({open: false})
+    };
+
+    async componentDidMount(){
+        console.log("mount");
+        const result = await axios.get('/product/getAllAvailable');
+        console.log(result);
+
+        const cat = await axios.get('category/all');
+        console.log("categories");
+        console.log(cat);
+
+        if (this.state.filterId === null)
+            this.setState({products: result.data});
+
+        else
+            this.setState({products: result.data.filter(product => product.category_id == this.state.filterId)});
+
+
+        console.log(this.state.products);
+    }
+    async componentDidUpdate(){
+        const result = await axios.get('/product/getAllAvailable');
+
+
+        if (this.state.filterId === null)
+            this.setState({products: result.data});
+
+        else
+            this.setState({products: result.data.filter(product => product.category_id == this.state.filterId)});
+
     }
     render() {
-        console.log(this.state.filterId);
-        const products = [{id:'1', name:'Banana', provider_id:'1', quantity:'30', category_id:'1', imageURL: 'https://cdn.shopify.com/s/files/1/1078/0310/products/fruit-banana-dole-1_1024x1024.jpg?v=1500709708'},
-            {id:'2', name:'Banana', provider_id:'1', quantity:'30', category_id:'1', image_url:'banana.com'},
-            {id:'3', name:'Celery', provider_id:'1', quantity:'30', category_id:'2', image_url:'banana.com'},
-            {id:'4', name:'banana', provider_id:'1', quantity:'30', category_id:'1', image_url:'banana.com'},
-            {id:'5', name:'Carrot', provider_id:'1', quantity:'30', category_id:'2', image_url:'banana.com'},
-            {id:'6', name:'banana', provider_id:'1', quantity:'30', category_id:'1', image_url:'banana.com'},
-            {id:'7', name:'banana', provider_id:'1', quantity:'30', category_id:'1', image_url:'banana.com'},
-            {id:'8', name:'banana', provider_id:'1', quantity:'30', category_id:'1', image_url:'banana.com'},
-            {id:'9', name:'banana', provider_id:'1', quantity:'30', category_id:'1', image_url:'banana.com'},
-            {id:'10', name:'banana', provider_id:'1', quantity:'30', category_id:'1', image_url:'banana.com'},
-            {id:'11', name:'banana', provider_id:'1', quantity:'30', category_id:'1', image_url:'banana.com'}];
         const { classes } = this.props;
         const { filterId } = this.state;
+        const { quantity } = this.state;
 
-        let products2 = [];
-        if (this.state.filterId === null)
-            products2 = products;
-        else
-            product2 = products.filter(product => product.category_id === this.state.filterId);
+        const showCard = () => {
+            if (this.state.products === [])
+                return (
+                    <p></p>
+                )
+            else {
+                return (
+                    this.state.products.map(value => (
+                        <Grid key={value._id} item>
+                            <Listing>{value}</Listing>
+
+                            <Button onClick={this.handleOpen} >
+                                Listing Details
+                            </Button>
+                            <Dialog
+                                className={classes.heading}
+                                open={this.state.open}
+                                onClose={this.handleClose}
+                                aria-labelledby="form-dialog-title">
+                                <DialogTitle id="form-dialog-title">Reserve Food</DialogTitle>
+                                <DialogContent>
+                                    <Listing>{value}</Listing>
+                                    <DialogContentText>
+                                        Please enter the quantity of this item you'd like to reserve.
+                                    </DialogContentText>
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="quant"
+                                        label="Quantity"
+                                        type="number"
+                                        value={this.state.quantity}
+                                        onChange={this.quantChange('bollocks')}
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={this.handleClose} color="primary">
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={this.handleReserve} color="primary">
+                                        Reserve
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </Grid>
+                    ))
+                )
+            }
+        }
 
         return (
             <div className={classes.heading}>
@@ -100,17 +183,10 @@ class Market extends React.Component {
                         <ToggleButton value={"3"}>Protein</ToggleButton>
                     </ToggleButtonGroup>
                     <Grid className={classes.rootGrid}>
-                        Filters
-                        <Grid container justify="center" spacing={16}>
-                            {products2.map(value => (
-                                <Grid key={value.id} item>
-                                    <Listing>{value}</Listing>
 
-                                    <Button onChange={this.handleChange} >
-                                        Listing Details
-                                    </Button>
-                                </Grid>
-                            ))}
+                        <Grid container justify="center" spacing={16}>
+                            {showCard()}
+
                         </Grid>
                     </Grid>
                 </div>
