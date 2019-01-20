@@ -9,6 +9,8 @@ let ProductSchema = new schema({
     category_id: {type: String, required: true}
 })
 
+module.exports = ProductSchema
+
 let Product = module.exports = mongoose.model('Product', ProductSchema);
 
 let getAvailableProducts = function(arr) {
@@ -37,8 +39,8 @@ module.exports.getByCategory = async function(category, limit) {
     return getAvailableProducts(arr);
 }
 
-module.exports.getById = function(id, callback) {
-    Product.findById(id, callback);
+module.exports.getById = async function(id) {
+    return await Product.findById(id);
 }
 
 module.exports.updateProduct = async function(id, product) {
@@ -47,4 +49,8 @@ module.exports.updateProduct = async function(id, product) {
 
 module.exports.removeProduct = async function(id){
     return await Product.find(id).remove();
+}
+
+module.exports.updateProductQuantity = async function(id, newQuantity) {
+    return await Product.findOneAndUpdate(id, {$set: {"quantity": newQuantity}});
 }

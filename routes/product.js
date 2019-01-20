@@ -29,6 +29,6 @@ router.post('/remove', async function(req, res){
     let id = req.body._id;
     let removedItem = await Product.removeProduct(id);
     res.status(200).json(query);
-})
+});
 
 module.exports = router;
