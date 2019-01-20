@@ -66,7 +66,6 @@ class Market extends React.Component {
     handleFilter = (event, filterId) => this.setState({filterId});
 
     handleOpen = () => {
-        console.log("open");
         this.setState({ open: true });
     };
 
@@ -79,10 +78,31 @@ class Market extends React.Component {
         this.setState({quantity: event.target.value})
     }
 
-    handleReserve = () => {
+    handleReserve = value => event => {
         console.log(this.state.quantity);
         console.log("reserve");
-        this.setState({open: false})
+        console.log(value);
+        let prodArr = [];
+        prodArr.push(value);
+
+        console.log(prodArr);
+
+        let obj = {product_requests: prodArr, requester_id:this.state.requesterInfo.requester_id};
+
+        console.log("obj");
+        console.log(obj);
+
+        axios.post('/order/create', {product_requests: prodArr, requester_id:this.state.requesterInfo.requester_id})
+            .then(result => {
+                console.log(result);
+                console.log(result.data);
+            }).catch(
+                err => console.log(err)
+        )
+
+
+        //this.setState({order: value});
+        this.setState({open: false});
     };
 
     async componentDidMount(){
@@ -171,7 +191,7 @@ class Market extends React.Component {
                                     <Button onClick={this.handleClose} color="primary">
                                         Cancel
                                     </Button>
-                                    <Button onClick={this.handleReserve} color="primary">
+                                    <Button onClick={this.handleReserve(value)} color="primary">
                                         Reserve
                                     </Button>
                                 </DialogActions>
