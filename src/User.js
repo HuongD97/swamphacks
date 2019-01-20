@@ -10,6 +10,15 @@ async function createUser(email, password) {
     }
 }
 
+async function deleteUser() {
+    try {
+        const user = Fire.auth().currentUser;
+        await user.delete();
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function signIn(email, password) {
     try {
         const result = await Fire.auth().signInWithEmailAndPassword(email, password);
@@ -48,7 +57,8 @@ module.exports = {
     createUser: createUser,
     signIn: signIn,
     signOut: signOut,
-    getCurrentUser: getCurrentUser
+    getCurrentUser: getCurrentUser,
+    deleteUser: deleteUser
 };
 
 
