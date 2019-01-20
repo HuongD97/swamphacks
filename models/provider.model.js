@@ -52,6 +52,6 @@ module.exports.addProvider = function (providerInfo) {
     });
 };
 
-module.exports.getProviderById = function (providerID) {
-    return Provider.findOne({provider_id: providerID});
+module.exports.getProviderById = async function (providerID) {
+    return await Provider.findOne({_id: providerID});
 };
