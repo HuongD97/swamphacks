@@ -6,7 +6,6 @@ const app = next({dev});
 const handle = app.getRequestHandler();
 
 // set up routes
-const indexRouter = require("./routes/index");
 const productRouter = require("./routes/product");
 const categoryRouter = require("./routes/category");
 const accountRouter = require('./routes/account');
@@ -22,7 +21,6 @@ app.prepare()
         const server = express();
         server.use(bodyParser.json());
 
-        server.use('/', indexRouter);
         server.use('/product', productRouter);
         server.use('/category', categoryRouter);
         server.use('/account', accountRouter);
